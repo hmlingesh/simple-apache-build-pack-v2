@@ -52,7 +52,7 @@ echo "config completed to:"$HOME/apache2
 make 
 echo "apache has been compiled successfully..."
 #install 
-sudo make install
+make install
 echo "apache has been installed successfully..."
 
 # change all the file and sub folder permission for apache2
@@ -61,9 +61,10 @@ echo "apache files are given the read permission..."
 
 # copy project index file into htdocs location .. for testing purpose
 
-sudo cp $COMPLETE_DIR_PATH/index.html $HOME/apache2/htdocs
+cp $COMPLETE_DIR_PATH/index.html $HOME/apache2/htdocs
 
+echo "project index.html has been copied over to htdocs..."
 
 # edit the http config to listen > 1024 port since we are not an root user
 sed -i "s/Listen 80/ Listen 9080/g" $HOME/apache2/conf/httpd.conf
-
+echo "changed apache http conf listen port from 80 to 9080"
