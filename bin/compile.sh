@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # bin/compile <build-dir>
 echo "Starting in Compile... "
-exec 1> >(logger -s -t $(basename $0)) 2>&1
+#exec 1> >(logger -s -t $(basename $0)) 2>&1
 #directory structure
 echo "present working directory:"$(pwd)
 echo "ARG0:"$1
