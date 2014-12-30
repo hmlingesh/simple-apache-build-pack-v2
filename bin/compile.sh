@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # bin/compile <build-dir>
-echo "Starting in Compile space"
+echo "Starting in Compile... "
 exec 1> >(logger -s -t $(basename $0)) 2>&1
 #directory structure
 echo "present working directory:"$(pwd)
@@ -21,25 +21,18 @@ if [ -z "$apache_version" ]; then
 fi
 
 
-
-# getting dependency of apache2
-sudo apt-get build-dep apache2
-
 # download the apache
-sudo wget http://www.webhostingjams.com/mirror/apache//httpd/httpd-$apache_version.tar.gz
-
+wget http://www.webhostingjams.com/mirror/apache//httpd/httpd-$apache_version.tar.gz
+echo "apache tar has been downloaded...."
 # untar
 tar -xf httpd-$apache_version.tar.gz
-
-#login as Root
-su
-source /etc/profile
+echo "tar has been extracted...."
 
 # get inside
 cd httpd-{$apache_version}
-
+echo "navigating to httpd directory...."
 #configure
-./configure --prefix=/usr/local/apache2 \
+./configure --prefix=$HOME/apache2 \
 --enable-mods-shared=all \
 --enable-http \
 --enable-deflate \
@@ -54,16 +47,23 @@ cd httpd-{$apache_version}
 --enable-mime-magic \
 --enable-log-debug \
 --with-mpm=event
-
+echo "config completed to:"$HOME/apache2
 #compile the source
 make 
-
+echo "apache has been compiled successfully..."
 #install 
 sudo make install
+echo "apache has been installed successfully..."
 
-# copy project index file into htdocs location
+# change all the file and sub folder permission for apache2
+chmod 755 -R $HOME/apache2
+echo "apache files are given the read permission..."
 
-sudo cp $COMPLETE_DIR_PATH/index.html /usr/local/apache2/htdocs
+# copy project index file into htdocs location .. for testing purpose
+
+sudo cp $COMPLETE_DIR_PATH/index.html $HOME/apache2/htdocs
 
 
+# edit the http config to listen > 1024 port since we are not an root user
+sed -i "s/Listen 80/ Listen 9080/g" $HOME/apache2/conf/httpd.conf
 
