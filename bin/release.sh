@@ -4,5 +4,5 @@
 BUILD_DIR=$1
 
 #start the apache
-sudo /usr/local/apache2/bin/apachectl graceful
-echo "Apache has been restarted gracefully...."
+$HOME/apache2/bin/httpd -k start  -f $HOME/apache2/conf/httpd.conf
+echo "Apache has been started...."
