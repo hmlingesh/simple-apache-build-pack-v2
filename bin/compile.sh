@@ -1,17 +1,23 @@
 #!/usr/bin/env bash
-# bin/compile <build-dir>
-echo "Starting in Compile... "
-#exec 1> >(logger -s -t $(basename $0)) 2>&1
-#directory structure
-echo "present working directory:"$(pwd)
-echo "ARG0:"$1
-COMPLETE_DIR_PATH=$(pwd)/$1
-echo "COMPLETE_PATH:"$COMPLETE_DIR_PATH
+# bin/compile <build-dir> <cache-dir>
+
+shopt -s dotglob
+set -e
+# ------------------------------------------------------------------------------------------------
+compile_build_dir=$1
+compile_cache_dir=$2
+compile_buildpack_dir=$(cd $(dirname $0) && cd .. && pwd)
+compile_buildpack_bin=$compile_buildpack_dir/bin
+echo "pwd: $(pwd)"
+echo "compile_build_dir: $compile_build_dir"
+echo "compile_cache_dir: $compile_cache_dir"
+echo "compile_buildpack_bin: $compile_buildpack_bin"
+echo "compile_buildpack_dir: $compile_buildpack_dir"
+# ------------------------------------------------------------------------------------------------
+
 
 #retrive the version from MANIFEST.INF
-
-apache_version="$(grep 'apache' $COMPLETE_DIR_PATH/META-INF/MANIFEST.MF | cut -d: -f2)"
-
+apache_version="$(grep 'apache' $compile_build_dir/META-INF/MANIFEST.MF | cut -d: -f2)"
 echo "apache-version:"$apache_version
 
 #if empty entry in MANIFEST then keep the default
