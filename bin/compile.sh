@@ -29,7 +29,7 @@ tar -xf httpd-$apache_version.tar.gz
 echo "tar has been extracted...."
 
 # get inside
-cd httpd-{$apache_version}
+cd httpd-$apache_version
 echo "navigating to httpd directory...."
 #configure
 ./configure --prefix=$HOME/apache2 \
