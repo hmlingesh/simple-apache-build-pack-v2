@@ -15,20 +15,6 @@ echo "compile_buildpack_bin: $compile_buildpack_bin"
 echo "compile_buildpack_dir: $compile_buildpack_dir"
 # ------------------------------------------------------------------------------------------------
 
-
-#retrive the version from MANIFEST.INF
-apache_version="$(grep 'apache' $compile_build_dir/META-INF/MANIFEST.MF | cut -d: -f2)"
-echo "apache-version:"$apache_version
-
-#if empty entry in MANIFEST then keep the default
-if [ -z "$apache_version" ]; then
-    apache_version="2.2.29"
-    echo "Default apache-version:"$apache_version
-fi
-
-# ------------------------------------------------------------------------------------------------
-
-
 # download the apache
 compile_apache_tgz="$compile_buildpack_dir/vendor/httpd-2.2.29.tar.gz"
 echo "apache tar has been downloaded...."
