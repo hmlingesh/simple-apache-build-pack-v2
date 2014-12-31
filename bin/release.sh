@@ -4,5 +4,4 @@
 BUILD_DIR=$1
 
 #start the apache
-$HOME/apache2/bin/httpd -k start  -f $HOME/apache2/conf/httpd.conf
-echo "Apache has been started...."
+echo "Apache has been started.... "netstat -a | grep 9180
