@@ -10,7 +10,7 @@ echo "COMPLETE_PATH:"$COMPLETE_DIR_PATH
 
 #retrive the version from MANIFEST.INF
 
-apache_version="$(grep 'apache' $COMPLETE_PATH/META-INF/MANIFEST.MF | cut -d: -f2)"
+apache_version="$(grep 'apache' $COMPLETE_DIR_PATH/META-INF/MANIFEST.MF | cut -d: -f2)"
 
 echo "apache-version:"$apache_version
 
