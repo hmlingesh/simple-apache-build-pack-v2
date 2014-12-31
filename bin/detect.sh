@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
-# bin/use <build-dir>
 
-echo "Starting Detect space"
-#exec 1> >(logger -s -t $(basename $0)) 2>&1
-if [ -f $1/index.html ]; then
-   echo "Java" && exit 0
+if [[ ! ( -f $1/index.html || -f $1/index.htm || -f $1/Default.htm ) ]]
+then
+echo "No" && exit 1
 else
-  echo "no" && exit 1
+echo "Static" && exit 0
 fi
