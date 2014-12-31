@@ -26,16 +26,29 @@ if [ -z "$apache_version" ]; then
     echo "Default apache-version:"$apache_version
 fi
 
+# ------------------------------------------------------------------------------------------------
+
 
 # download the apache
-wget http://www.webhostingjams.com/mirror/apache//httpd/httpd-$apache_version.tar.gz
+compile_apache_tgz="$compile_buildpack_dir/vendor/httpd-2.2.29.tar.gz"
 echo "apache tar has been downloaded...."
+# ------------------------------------------------------------------------------------------------
+
+cd $compile_build_dir
+
+echo "-----> Doing work with $(basename ${compile_apache_tgz%.tar.gz}) son."
+
+mkdir -p $compile_cache_dir/public
+mv * $compile_cache_dir/public
+mv $compile_cache_dir/public .
+
+
 # untar
-tar -xf httpd-$apache_version.tar.gz
+tar xzf $compile_apache_tgz
 echo "tar has been extracted...."
 
 # get inside
-cd httpd-$apache_version
+cd httpd-2.2.29
 echo "navigating to httpd directory...."
 #configure
 ./configure --prefix=$HOME/apache2 \
@@ -67,10 +80,14 @@ echo "apache files are given the read permission..."
 
 # copy project index file into htdocs location .. for testing purpose
 
-cp $COMPLETE_DIR_PATH/index.html $HOME/apache2/htdocs
+cp $compile_build_dir/index.html $HOME/apache2/htdocs
 
 echo "project index.html has been copied over to htdocs..."
 
 # edit the http config to listen > 1024 port since we are not an root user
 sed -i "s/Listen 80/ Listen 9080/g" $HOME/apache2/conf/httpd.conf
 echo "changed apache http conf listen port from 80 to 9080"
+
+#start the apache
+$HOME/apache2/bin/httpd -k start -f $HOME/apache2/conf/httpd.conf
+echo "Apache has been started...."
